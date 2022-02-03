@@ -1,0 +1,377 @@
+{
+	"SchemaDefinition": "RedfishInteroperabilityProfile.v1_5_0",
+	"ProfileName": "CSMProfile",
+	"ProfileVersion": "0.1.0",
+	"OwningEntity": "Hewlet Packard Enterprise Development LP",
+	"ContributedBy": "Michael Jendrysik",
+	"License": "MIT License",
+	"Purpose": "CSM Redfish Interoperability profile.",
+	"ContactInfo": "michael.jendrysik@hpe.com",
+	"RequiredProfiles": {
+	},
+	"Resources": {
+		"ManagerCollection": {
+			"PropertyRequirements": {
+				"Members": {
+					"MinCount": 1
+				}
+			}
+		},
+		"ChassisCollection": {
+			"PropertyRequirements": {
+				"Members": {
+					"MinCount": 1
+				}
+			}
+		},
+		"ControlsCollection": {
+			"PropertyRequirements": {
+				"Members": {
+					"MinCount": 1
+				}
+			}
+		},
+		"ComputerSystemCollection": {
+			"PropertyRequirements": {
+				"Members": {
+					"MinCount": 1
+				}
+			}
+		},
+		"MemoryCollection": {
+			"PropertyRequirements": {
+				"Members": {
+					"MinCount": 1
+				}
+			}
+		},
+		"ProcessorCollection": {
+			"PropertyRequirements": {
+				"Members": {
+					"MinCount": 1
+				}
+			}
+		},
+		"EthernetInterfaceCollection": {
+			"PropertyRequirements": {
+				"Members": {
+					"MinCount": 2
+				}
+			}
+		},
+		"Manager": {
+			"MinVersion": "1.3.2",
+			"ActionRequirements": {
+				"Reset": {
+					"ReadRequirement": "IfImplemented",
+					"Parameters": {
+						"ResetType": {
+							"ReadRequirement": "Mandatory",
+							"ParameterValues": [
+								"ForceRestart"
+							],
+							"RecommendedValues": [
+								"GracefulRestart"
+							]
+						}
+					}
+				}
+			},
+			"PropertyRequirements": {
+				"Name": {
+					"ReadRequirement": "Mandatory"
+				},
+				"NetworkProtocol": {
+					"ReadRequirement": "IfImplemented"
+				},
+				"Status": {
+					"PropertyRequirements": {
+						"State": {
+							"ReadRequirement": "IfImplemented"
+						},
+						"Health": {
+							"ReadRequirement": "Mandatory"
+						}
+					}
+				}
+			}
+		},
+		"Chassis": {
+			"MinVersion": "1.5.1",
+			"PropertyRequirements": {
+				"SerialNumber": {
+					"ReadRequirement": "Recommended"
+				},
+				"Power": {
+					"ReadRequirement": "Recommended"
+				},
+				"Thermal": {
+					"ReadRequirement": "Recommended"
+				},
+				"Controls": {
+					"ReadRequirement": "Recommended"
+				},
+				"PartNumber": {
+					"ReadRequirement": "Recommended"
+				},
+				"Manufacturer": {
+					"ReadRequirement": "Mandatory"
+				},
+				"Model": {
+					"ReadRequirement": "Recommended"
+				},
+				"PowerState": {
+					"ReadRequirement": "Recommended"
+				},
+				"Status": {
+					"ReadRequirement": "IfImplemented",
+					"PropertyRequirements": {
+						"State": {
+							"ReadRequirement": "Mandatory"
+						},
+						"Health": {
+							"ReadRequirement": "Mandatory"
+						}
+					}
+				}
+			}
+		},
+		"Control": {
+			"MinVersion": "1.0.0",
+			"PropertyRequirements": {
+				"ControlMode":{
+					"ReadRequirement": "Recommended"
+				},
+				"ControlType":{
+					"ReadRequirement": "Recommended"
+				},
+				"Name": {
+					"ReadRequirement": "Mandatory"
+				},
+				"SetPoint": {
+					"WriteRequirement": "Mandatory"
+				},
+				"SettingRangeMax": {
+					"ReadRequirement": "Mandatory"
+				},
+				"SettingRangeMin": {
+					"ReadRequirement": "Mandatory"
+				},
+				"PhysicalContext": {
+					"ReadRequirement": "Mandatory"
+				},
+				"Sensor": {
+					"PropertyRequirements": {
+						"Reading": {
+							"ReadRequirement": "Mandatory"
+						}
+					}
+				}
+			}
+		},
+		"ComputerSystem": {
+			"MinVersion": "1.5.0",
+			"PropertyRequirements": {
+				"BiosVersion": {
+					"ReadRequirement": "IfImplemented"
+				},
+				"SerialNumber": {
+					"ReadRequirement": "Mandatory"
+				},
+				"Manufacturer": {
+					"ReadRequirement": "Mandatory"
+				},
+				"Model": {
+					"ReadRequirement": "Mandatory"
+				},
+				"Name": {
+					"ReadRequirement": "Mandatory"
+				},
+				"SKU": {
+					"ReadRequirement": "Recommended",
+					"ConditionalRequirements": [
+						{
+							"Purpose": "Either PartNumber or SKU must be supported.",
+							"CompareProperty": "PartNumber",
+							"CompareType": "Absent",
+							"ReadRequirement": "Mandatory"
+						}
+					]
+				},
+				"PartNumber": {
+					"ReadRequirement": "Recommended",
+					"ConditionalRequirements": [
+						{
+							"Purpose": "Either PartNumber or SKU must be supported.",
+							"CompareProperty": "SKU",
+							"CompareType": "Absent",
+							"ReadRequirement": "Mandatory"
+						}
+					]
+				},
+				"PowerState": {
+					"ReadRequirement": "Mandatory"
+				},
+				"Status": {
+					"PropertyRequirements": {
+						"State": {
+							"ReadRequirement": "Mandatory"
+						},
+						"Health": {
+							"ReadRequirement": "Mandatory"
+						}
+					}
+				},
+				"SystemType": {
+					"ReadRequirement": "Mandatory"
+				}
+			},
+			"ActionRequirements": {
+				"Reset": {
+					"ReadRequirement": "Mandatory",
+					"Purpose": "Ability to reset the system is a core requirement of most users.",
+					"Parameters": {
+						"ResetType": {
+							"ParameterValues": [
+								"On",
+								"ForceOff"
+							],
+							"RecommendedValues": [
+								"GracefulShutdown",
+								"GracefulRestart",
+								"ForceRestart",
+								"Nmi",
+								"PushPowerButton",
+								"Off"
+							],
+							"ReadRequirement": "Mandatory"
+						}
+					}
+				}
+			}
+		},
+		"Memory": {
+			"MinVersion": "1.5.0",
+			"PropertyRequirements": {
+				"CapacityMiB": {
+					"ReadRequirement": "IfPopulated"
+				},
+				"Id": {
+					"ReadRequirement": "IfPopulated"
+				},
+				"MemoryDeviceType": {
+					"ReadRequirement": "Recommended"
+				},
+				"Manufacturer": {
+					"ReadRequirement": "IfPopulated"
+				},
+				"PartNumber": {
+					"ReadRequirement": "IfPopulated"
+				},
+				"SerialNumber": {
+					"ReadRequirement": "IfPopulated"
+				},
+				"OperatingSpeedMhz": {
+					"ReadRequirement": "IfPopulated"
+				}
+			}
+		},
+		"Processor": {
+			"MinVersion": "1.7.0",
+			"PropertyRequirements": {
+				"Manufacturer": {
+					"ReadRequirement": "Mandatory"
+				},
+				"Model": {
+					"ReadRequirement": "Mandatory"
+				},
+				"SerialNumber": {
+					"ReadRequirement": "Mandatory"
+				},
+				"TotalCores": {
+					"ReadRequirement": "IfImplemented"
+				},
+				"TotalThreads": {
+					"ReadRequirement": "IfImplemented"
+				},
+				"MaxSpeedMHz": {
+					"ReadRequirement": "IfImplemented"
+				},
+				"Status": {
+					"PropertyRequirements": {
+						"Health": {
+							"ReadRequirement": "Recommended"
+						}
+					}
+				}
+			}
+		},
+		"EthernetInterface": {
+			"MinVersion": "1.3.0",
+			"PropertyRequirements": {
+				"Description": {
+					"ReadRequirement": "Recommended"
+				},
+				"Id": {
+					"ReadRequirement": "Mandatory"
+				},
+				"InterfaceEnabled": {
+					"ReadRequirement": "Recommended"
+				},
+				"MACAddress": {
+					"ReadRequirement": "Mandatory"
+				}
+			}
+		},
+		"HpeServerAccPowerLimit": {
+			"MinVersion": "1.0.0",
+			"PropertyRequirements": {
+				"ActualPowerLimits": {
+					"PropertyRequirements": {
+						"PowerLimitInWatts": {
+							"ReadRequirement": "Mandatory"
+						}
+					}
+				},
+				"PowerLimitRanges": {
+					"PropertyRequirements": {
+						"MaximumPowerLimit": {
+							"ReadRequirement": "Mandatory"
+						},
+						"MinimumPowerLimit": {
+							"ReadRequirement": "Mandatory"
+						}
+					}
+				},
+				"PowerLimits": {
+					"PropertyRequirements": {
+						"PowerLimitInWatts": {
+							"WriteRequirement": "Mandatory"
+						}
+					}
+				}
+			}
+		},
+		"Power": {
+			"MinVersion": "1.3.0",
+			"PropertyRequirements": {
+				"PowerControl": {
+					"ReadRequirement": "IfImplemented",
+					"PropertyRequirements": {
+						"PowerCapacityWatts": {
+							"ReadRequirement": "Recommended"
+						},
+						"PowerLimit": {
+							"ReadRequirement": "IfImplemented",
+							"PropertyRequirements": {
+								"LimitInWatts": {
+									"WriteRequirement": "IfImplemented"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
