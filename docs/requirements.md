@@ -34,6 +34,7 @@ Some of these requirements transcend BMC requirements and relate to the intercon
 | FR7 | The BMC shall support communication via HTTP and HTTPS.  | |
 | FR8 | The BMC shall support both sessions and basic-auth as the primary authentication method. | The customer relies almost exclusively on basic-auth. All expectations for performance are predicated on all communication being via basic-auth and not sessions. |
 | FR9 | The node(s) connected to the BMC shall rerun boot options if the boot fails.   It shall not be acceptable for the node to fall into UEFI shell prompt and not retry the other boot options. |  |
+| FR10 | The BMC shall support x509 certificate (server, TLS) enrollment via a customer-supplied certificate authority. | | 
 
 ## Performance and Quality of Service Requirements
 
