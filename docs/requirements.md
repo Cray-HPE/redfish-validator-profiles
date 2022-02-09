@@ -46,7 +46,7 @@ Assumptions:
 |---|---|---|
 | PR1 | The BMC shall service continuous sustained Redfish connections (via basic-auth) of at minimum 30 requests per minute. If this rate is exceeded, except by the peak load clause, the server shall be able to delay response times. The server shall not refuse connections. | |
 | PR2 | The BMC shall service a peak load of burst connections as defined as: 100 requests in a single minute (via basic-auth) for a duration of 1 minute, before returning to the continuous sustained load previously defined. If this rate is exceeded the server shall be able to delay response times. The server shall not refuse connections.| |
-| PR3 | The BMC shall support simultaneous connections via Redfish. | |
+| PR3 | The BMC shall support atleast 10 simultaneous connections via Redfish. | |
 | PR4 | The `response time` - total time for server to respond to client after connection, to any endpoint in the Redfish tree on the BMC shall take no longer than `30 seconds`.| |
 | PR5 | The BMC shall not categorize repeated connections from the same IP as a DoS attempt. | The customer depends heavily on Redfish connectivity, it is not correct for the BMC to treat this behavior as a DoS attempt. |
 | PR6 | The Redfish interface of the BMC shall have an availability of at least 99.9%. | |
