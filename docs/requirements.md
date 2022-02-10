@@ -1,10 +1,14 @@
 # BMC & Node Functional and Quality Requirements
 
 
-### Version
+### Version 
+
+Current version of file: `v1.0.1`
+
 | Date  |  Author | Content  |
 |---|---|---|
 |  2022-02-08 | Andrew Nieuwsma  | Initial Draft  |
+| 2022-02-10 | Andrew Nieuwsma | Published version 1.0.1 |
 
 
 ## Overview
@@ -23,18 +27,18 @@ Some of these requirements transcend BMC requirements and relate to the intercon
 
 ## Functional Requirements
 
-|  ID  |  Requirement | Notes  |
-|---|---|---|
-|  FR1 | The BMC shall support the paths, parameters, and capabilities specified in the [profiles](../profiles/) listing.   Here is a restatement of some of the core support requirements: The BMC shall at a minimum support: <ol><li>Power actions of the node and the BMC</li><li>Firmware inventory/update of the node and the BMC</li><li>Redfish Alerts and Events</li><li>streamed telemetry </li><li>power capping of the node.</li></ol> | The Customer has specified a minimum set of Redfish API requirements needed to support its operation. |
-| FR2 | The BMC shall send power alerts regardless of the underlying cause of the power event.  This means that a power alert shall be sent if a human actor, IPMI instruction, or Redfish instruction initiates the power event. | It is crucial to the Customer operations that all power events, regardless of origination are sent so the Customer can manage the system. |
-| FR3 | When the BMC reports a power status in response to a request to change status (e.g. a power-on is issued), the BMC shall follow through with the request.  This means that if you respond that a power-on event is occurring, that event shall occur. In no case shall the BMC respond that it is completing a power action if it is unable to do so. | We have seen Redfish implementations that exhibit the following incorrect behavior: <ol><li>The power off is issued to all nodes under the BMC.</li><li> Once all nodes have completed the power off (determined via a poll of power status), a power on is issued to all nodes with no wait time.</li><li>If not enough wait time is given, the nodes will complete the posted power on command but not power on.</li></oi>  |
-| FR4 | The BMC shall expose an endpoint to set the NTP server to sync time on the BMC. The BMC shall synchronize this time to the nodes it controls.  |  |
-| FR5 | Every ethernet port shall have exactly one mac-address.  In no case shall the BMC and node share the same ethernet port. Each BMC shall have a dedicated ethernet port. | Customer discovery process depends upon MAC address based discovery. Multiplexing MACs on ethernet ports hinders customer discovery. |
-| FR6 | The BMC shall support a means of setting the boot order for the node via Redfish.  The default boot order shall persist across boot attempts. | |
-| FR7 | The BMC shall support communication via HTTP and HTTPS.  | |
-| FR8 | The BMC shall support both sessions and basic-auth as the primary authentication method. | The customer relies almost exclusively on basic-auth. All expectations for performance are predicated on all communication being via basic-auth and not sessions. |
-| FR9 | The node(s) connected to the BMC shall rerun boot options if the boot fails.   It shall not be acceptable for the node to fall into UEFI shell prompt and not retry the other boot options. |  |
-| FR10 | The BMC shall support x509 certificate (server, TLS) enrollment via a customer-supplied certificate authority. | | 
+| Date |  ID  |  Requirement | Notes  |
+|---|---|---|---|
+| 2022-02-08 |  FR1 | The BMC shall support the paths, parameters, and capabilities specified in the [profiles](../profiles/) listing.   Here is a restatement of some of the core support requirements: The BMC shall at a minimum support: <ol><li>Power actions of the node and the BMC</li><li>Firmware inventory/update of the node and the BMC</li><li>Redfish Alerts and Events</li><li>streamed telemetry </li><li>power capping of the node.</li></ol> | The Customer has specified a minimum set of Redfish API requirements needed to support its operation. |
+| 2022-02-08 | FR2 | The BMC shall send power alerts regardless of the underlying cause of the power event.  This means that a power alert shall be sent if a human actor, IPMI instruction, or Redfish instruction initiates the power event. | It is crucial to the Customer operations that all power events, regardless of origination are sent so the Customer can manage the system. |
+| 2022-02-08 | FR3 | When the BMC reports a power status in response to a request to change status (e.g. a power-on is issued), the BMC shall follow through with the request.  This means that if you respond that a power-on event is occurring, that event shall occur. In no case shall the BMC respond that it is completing a power action if it is unable to do so. | We have seen Redfish implementations that exhibit the following incorrect behavior: <ol><li>The power off is issued to all nodes under the BMC.</li><li> Once all nodes have completed the power off (determined via a poll of power status), a power on is issued to all nodes with no wait time.</li><li>If not enough wait time is given, the nodes will complete the posted power on command but not power on.</li></oi>  |
+| 2022-02-08 | FR4 | The BMC shall expose an endpoint to set the NTP server to sync time on the BMC. The BMC shall synchronize this time to the nodes it controls.  |  |
+| 2022-02-08 | FR5 | Every ethernet port shall have exactly one mac-address.  In no case shall the BMC and node share the same ethernet port. Each BMC shall have a dedicated ethernet port. | Customer discovery process depends upon MAC address based discovery. Multiplexing MACs on ethernet ports hinders customer discovery. |
+| 2022-02-08 | FR6 | The BMC shall support a means of setting the boot order for the node via Redfish.  The default boot order shall persist across boot attempts. | |
+| 2022-02-08 | FR7 | The BMC shall support communication via HTTP and HTTPS.  | |
+| 2022-02-08 | FR8 | The BMC shall support both sessions and basic-auth as the primary authentication method. | The customer relies almost exclusively on basic-auth. All expectations for performance are predicated on all communication being via basic-auth and not sessions. |
+| 2022-02-08 | FR9 | The node(s) connected to the BMC shall rerun boot options if the boot fails.   It shall not be acceptable for the node to fall into UEFI shell prompt and not retry the other boot options. |  |
+| 2022-02-10 | FR10 | The BMC shall support x509 certificate (server, TLS) enrollment via a customer-supplied certificate authority, and shall not require a Certificate Signing Request to do so. | Context: we have experienced BMCs that require a CSR in order to support an x509 certificate.  In those cases the only way to get a TLS cert onto the BMC is to tell it, via Redfish, to issue a CSR, pointing it to an authority.   The BMC does this on its own, and then returns the certificate to the caller, all in Redfish calls.   Then we can install THAT cert onto the BMC. If we try to generate our own and install it, it won't work -- the BMC will say the cert is invalid.  THEREFORE: supporting x509 certificate without requiring a CSR is a requirement.| 
 
 ## Performance and Quality of Service Requirements
 
