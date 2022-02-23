@@ -71,7 +71,7 @@ Validator](https://github.com/DMTF/Redfish-Interop-Validator).
    ```
 1. Execute the Redfish Interop Validator.
    ```
-   # python3 RedfishInteropValidator.py -c config/CSM.ini -i https://$ENDPOINT ../redfish-validator-profiles/profiles/CSMRedfishProfile.v1_0_0.json -p $PASSWD
+   # python3 RedfishInteropValidator.py -c config/CSM.ini -i https://$ENDPOINT ../redfish-validator-profiles/profiles/CSMRedfishProfile.v1_1_0.json -p $PASSWD
    ```
    Execution time is hardware dependent
 2. A summary is displayed at the end of the execution. A **.txt** and **.html**
