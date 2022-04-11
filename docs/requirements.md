@@ -3,12 +3,13 @@
 
 ### Version 
 
-Current version of file: `v1.0.1`
+Current version of file: `v1.0.2`
 
 | Date  |  Author | Content  |
 |---|---|---|
 |  2022-02-08 | Andrew Nieuwsma  | Initial Draft  |
 | 2022-02-10 | Andrew Nieuwsma | Published version 1.0.1 |
+| 2022-04-07 | Andrew Nieuwsma | Updated to add additional functional requirements |
 
 
 ## Overview
@@ -39,6 +40,10 @@ Some of these requirements transcend BMC requirements and relate to the intercon
 | 2022-02-08 | FR8 | The BMC shall support both sessions and basic-auth as the primary authentication method. | The customer relies almost exclusively on basic-auth. All expectations for performance are predicated on all communication being via basic-auth and not sessions. |
 | 2022-02-08 | FR9 | The node(s) connected to the BMC shall rerun boot options if the boot fails.   It shall not be acceptable for the node to fall into UEFI shell prompt and not retry the other boot options. |  |
 | 2022-02-10 | FR10 | The BMC shall support x509 certificate (server, TLS) enrollment via a customer-supplied certificate authority, and shall not require a Certificate Signing Request to do so. | Context: we have experienced BMCs that require a CSR in order to support an x509 certificate.  In those cases the only way to get a TLS cert onto the BMC is to tell it, via Redfish, to issue a CSR, pointing it to an authority.   The BMC does this on its own, and then returns the certificate to the caller, all in Redfish calls.   Then we can install THAT cert onto the BMC. If we try to generate our own and install it, it won't work -- the BMC will say the cert is invalid.  THEREFORE: supporting x509 certificate without requiring a CSR is a requirement.| 
+| 2022-04-07 | FR11 | The BMC shall not have any pre-configured, well known, administrative accounts credentials.  Each BMC device shall have a randomized high entropy password. | It will not be acceptable for any BMC to come with a preconfigured admin account, whose password is shared by another other BMC from the same manufacturer. i.e. do not create an administrator account like: `admin:password` as this is inherently insecure.  Instead each device shipped should include a randomized password for each device.  The default credential should be documented on a pull-out-card on the physical device, or could be set to a unique identifier for the device, like it's serial number. |
+| 2022-04-07 | FR12 | The vendor must include documentation on how to factory reset the BMC to factory defaults, assuming physical access to the device, but not assuming that we have the password. | We will take a low-trust approach to BMC setup and configuration. We would like a way to factory reset the device without having to know the credential of the device; we expect that this would required physical access.  When we receive a device we will factory reset it, use the credential provided on the pull-out-card to access the device, then we will reset the administrator credential so that the pull-out-card is no longer valid without a factory reset. This is ensure no unauthorized access to the device is possible. |
+| 2022-04-07 | FR13 | If the computes nodes managed by the BMCs have GPU accelerators, the GPU information needs to be present in the redfish tree. GPU information (serial number, manufacturer, part number, model identifier, processror type) needs to be present in the 'processor' tree:  `/redfish/v1/Systems/<sysid>/Processors`. | We depend on a fully populated redfish tree in order to do FRU (field replaceable unit) tracking.  GPU information must show up in the `Processesor` tree, as opposed to only in the `PCIe` devices tree. |
+
 
 ## Performance and Quality of Service Requirements
 
