@@ -63,16 +63,27 @@ Validator](https://github.com/DMTF/Redfish-Interop-Validator).
    EOF
    ```
 ## Execute the Redfish Interop Validator
-1. Set PASSWD and ENDPOINT variables.
+1. Set environment variables.
    ```
    # read -s PASSWD
    <enter redfish root password>
    # ENDPOINT=<hostname or IP>
    ```
-1. Execute the Redfish Interop Validator.
+1. Select which profile to use
+   * Standard node
+      ```
+      # PROFILE="../redfish-validator-profiles/profiles/CSMRedfishProfile.v1_2_0.json"
+      ```
+   * Node with GPUs
+      ```
+      # PROFILE="../redfish-validator-profiles/profiles/CSMRedfishProfile-GPU.v1_0_0.json"
+      ```
+      * This profile will indicate a ProcessorType failure with non-GPUs. These
+      errors can safely be ignored. 
+2. Execute the Redfish Interop Validator.
    ```
-   # python3 RedfishInteropValidator.py -c config/CSM.ini -i https://$ENDPOINT ../redfish-validator-profiles/profiles/CSMRedfishProfile.v1_1_0.json -p $PASSWD
+   # python3 RedfishInteropValidator.py -c config/CSM.ini -i https://$ENDPOINT $PROFILE -p $PASSWD
    ```
    Execution time is hardware dependent
-2. A summary is displayed at the end of the execution. A **.txt** and **.html**
+3. A summary is displayed at the end of the execution. A **.txt** and **.html**
 file are also created in the **logs** directory for further analysis.
