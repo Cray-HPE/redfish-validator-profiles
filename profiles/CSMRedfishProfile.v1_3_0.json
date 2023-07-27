@@ -429,7 +429,7 @@
 					"ReadRequirement": "Mandatory"
 				},
 				"EventTypesForSubscription": {
-					"ReadRequirement": "Mandatory"
+					"ReadRequirement": "IfImplemented"
 				}
 			}
 		},
